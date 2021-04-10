@@ -1,8 +1,8 @@
-package com.example.app2.activities
+package com.pszandi.contactlist.activities
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.example.app2.data.User
+import com.pszandi.contactlist.data.User
 
 class UserDetailsActivity: AppCompatActivity() {
 

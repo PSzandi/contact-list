@@ -1,15 +1,15 @@
-package com.example.app2.activities
+package com.pszandi.contactlist.activities
 
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.app2.adapter.UserAdapter
-import com.example.app2.data.Name
-import com.example.app2.data.User
-import com.example.app2.databinding.ActivityUserListBinding
-import com.example.app2.interfaces.UserClickListener
+import com.pszandi.contactlist.adapter.UserAdapter
+import com.pszandi.contactlist.data.Name
+import com.pszandi.contactlist.data.User
+import com.pszandi.contactlist.databinding.ActivityUserListBinding
+import com.pszandi.contactlist.interfaces.UserClickListener
 
 
 class UserListActivity : AppCompatActivity() {

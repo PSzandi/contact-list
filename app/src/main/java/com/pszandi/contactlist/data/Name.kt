@@ -1,4 +1,4 @@
-package com.example.app2.data
+package com.pszandi.contactlist.data
 
 import java.io.Serializable
 

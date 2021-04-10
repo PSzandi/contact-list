@@ -1,12 +1,11 @@
-package com.example.app2.adapter
+package com.pszandi.contactlist.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import coil.load
-import com.example.app2.databinding.ItemUserBinding
-import com.example.app2.data.User
-import com.example.app2.interfaces.UserClickListener
+import com.pszandi.contactlist.databinding.ItemUserBinding
+import com.pszandi.contactlist.data.User
+import com.pszandi.contactlist.interfaces.UserClickListener
 
 // Ez lesz az adapter, ami felelős a ViewHolderek létrehozásáért és bindolásáért
 // dataSet: az az adat, amit meg akarunk jeleníteni

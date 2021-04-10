@@ -1,4 +1,4 @@
-package com.example.app2
+package com.pszandi.contactlist
 
 import org.junit.Test
 
