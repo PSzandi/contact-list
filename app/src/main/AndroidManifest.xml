@@ -19,8 +19,6 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="com.pszandi.contactlist.activities.UserDetailsActivity" />
-
     </application>
 
 </manifest>
