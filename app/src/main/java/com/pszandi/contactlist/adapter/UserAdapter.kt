@@ -3,6 +3,7 @@ package com.pszandi.contactlist.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
 import com.pszandi.contactlist.databinding.ItemUserBinding
 import com.pszandi.contactlist.data.User
 import com.pszandi.contactlist.interfaces.UserClickListener
