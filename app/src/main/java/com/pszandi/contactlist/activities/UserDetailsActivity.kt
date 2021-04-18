@@ -3,11 +3,9 @@ package com.pszandi.contactlist.activities
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import coil.load
-import com.pszandi.contactlist.R
 
 import com.pszandi.contactlist.data.User
 import com.pszandi.contactlist.databinding.ActivityUserDetailsBinding
-import java.io.File
 
 
 class UserDetailsActivity : AppCompatActivity() {
@@ -23,7 +21,7 @@ class UserDetailsActivity : AppCompatActivity() {
 
 
         // Kiszedjük az intent-ből a user-t, amit az előző activity-ről adtunk át.
-        user = intent.extras?.getSerializable(UserListActivity.USER) as? User?
+        user = intent.extras?.getSerializable(UserListFragment.USER) as? User?
         // todo itt már van usered, onStartban ezt tudod majd használni.
 
     }
