@@ -1,18 +1,20 @@
 package com.pszandi.contactlist.activities
 
-import android.content.Intent
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.pszandi.contactlist.adapter.UserAdapter
 import com.pszandi.contactlist.data.Name
 import com.pszandi.contactlist.data.User
-import com.pszandi.contactlist.databinding.ActivityUserListBinding
+import com.pszandi.contactlist.databinding.FragmentUserListBinding
 import com.pszandi.contactlist.interfaces.UserClickListener
 
 
-class UserListActivity : AppCompatActivity() {
+class UserListFragment : Fragment() {
 
     // layoutManager of the recyclerview
     lateinit var layoutManager: LinearLayoutManager
@@ -21,14 +23,12 @@ class UserListActivity : AppCompatActivity() {
     lateinit var userAdapter: UserAdapter
 
     // View binding:
-    private lateinit var binding: ActivityUserListBinding
+    private lateinit var binding: FragmentUserListBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityUserListBinding.inflate(layoutInflater)
-        setContentView(binding.root)
         // Létrehozunk egy LinearLayoutManagert, emiatt lesznek sorban az elemek a RV-ban
-        layoutManager = LinearLayoutManager(this)
+        layoutManager = LinearLayoutManager(context)
         // Az adapternek átadjuk a user listánkat, ebből fogja bindolni a ViewHoldereket
         userAdapter = UserAdapter(userList, itemClickCallback = object : UserClickListener {
             override fun onUserClicked(user: User) {
@@ -36,6 +36,15 @@ class UserListActivity : AppCompatActivity() {
                 navigateToUserDetailsActivity(user)
             }
         })
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        binding = FragmentUserListBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onStart() {
@@ -50,7 +59,7 @@ class UserListActivity : AppCompatActivity() {
 
         // Ezzel tudunk listaelemek közé elválasztást tenni
         val dividerItemDecoration = DividerItemDecoration(
-            this,
+            context,
             layoutManager.orientation
         )
 
@@ -65,11 +74,11 @@ class UserListActivity : AppCompatActivity() {
     private fun navigateToUserDetailsActivity(user: User) {
         // Soha ne példányosíts Activity-t, és ne hívd meg a lifecycle metódusokat kézzel!!!
         // Intent: Szándék. Azt mondjuk a rendszernek, hogy majd ezzel az activityvel akarunk valamit kezdeni.
-        val intent = Intent(this, UserDetailsActivity::class.java)
+        /*val intent = Intent(this, UserDetailsActivity::class.java)
         // Adat átadás activity-k között:
         intent.putExtra(USER, user)
         // Átadjuk az intentet, így a rendszer elindítja a UserDetailsActivity-t
-        startActivity(intent)
+        startActivity(intent)*/
     }
 
     // This is the dataset of the recyclerView
