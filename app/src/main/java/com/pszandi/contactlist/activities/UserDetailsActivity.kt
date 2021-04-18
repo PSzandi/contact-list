@@ -34,9 +34,7 @@ class UserDetailsActivity : AppCompatActivity() {
         binding.cardImage.load(user?.image)
         binding.userName.text = "${user?.name?.firstName} ${user?.name?.lastName}"
         binding.tvDetails.text = "${user?.phoneNumber}"
-        //binding.phoneIcon.load(File("C:/Users/Home/AndroidStudioProjects/phoneIcon.png"))
-        binding.phoneIcon.setImageResource(R.drawable.phoneicon)
-
+       
     }
 
 }
