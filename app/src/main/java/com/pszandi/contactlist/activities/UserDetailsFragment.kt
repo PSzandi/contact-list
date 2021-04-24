@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import coil.load
 import com.pszandi.contactlist.data.User
@@ -15,12 +14,13 @@ class UserDetailsFragment : Fragment() {
 
     private lateinit var binding: FragmentUserDetailsBinding
     var user: User? = null
-    //var phoneIcon : String = "https://www.pngegg.com/en/png-xixwv"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        // Kiszedjük az intent-ből a user-t, amit az előző activity-ről adtunk át.
-        //user = intent.extras?.getSerializable(UserListFragment.USER) as? User?
+        // Kiszedjük az bundle-ből a user-t, amit az előző fragmentről adtunk át.
+        arguments?.let { args ->
+            user = UserDetailsFragmentArgs.fromBundle(args).user
+        }
     }
 
     override fun onCreateView(

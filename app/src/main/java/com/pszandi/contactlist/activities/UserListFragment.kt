@@ -52,14 +52,6 @@ class UserListFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        // RV inicializálása: beállítjuk neki az adaptert és a layoutManagert
-        // Ez nem kell a ViewBinding miatt már...
-        //val recyclerView = this.findViewById<RecyclerView>(R.id.rvUsers)
-
-        // Ezt is átírjuk:
-        /*recyclerView.layoutManager = layoutManager
-        recyclerView.adapter = userAdapter*/
-
         // Ezzel tudunk listaelemek közé elválasztást tenni
         val dividerItemDecoration = DividerItemDecoration(
             context,
@@ -75,8 +67,8 @@ class UserListFragment : Fragment() {
     }
 
     private fun navigateToUserDetailsFragment(user: User) {
-       Navigation.findNavController(activity as FragmentActivity, R.id.fragmentContainer)
-           .navigate(R.id.action_userListFragment_to_userDetailsFragment)
+        Navigation.findNavController(activity as FragmentActivity, R.id.fragmentContainer)
+            .navigate(UserListFragmentDirections.actionUserListFragmentToUserDetailsFragment(user))
     }
 
     // This is the dataset of the recyclerView
