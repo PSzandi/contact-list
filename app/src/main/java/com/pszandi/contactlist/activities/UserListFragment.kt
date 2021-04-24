@@ -5,8 +5,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.pszandi.contactlist.R
 import com.pszandi.contactlist.adapter.UserAdapter
 import com.pszandi.contactlist.data.Name
 import com.pszandi.contactlist.data.User
@@ -33,7 +36,7 @@ class UserListFragment : Fragment() {
         userAdapter = UserAdapter(userList, itemClickCallback = object : UserClickListener {
             override fun onUserClicked(user: User) {
                 // Itt hozzá fogsz tudni a userhez
-                navigateToUserDetailsActivity(user)
+                navigateToUserDetailsFragment(user)
             }
         })
     }
@@ -71,14 +74,9 @@ class UserListFragment : Fragment() {
 
     }
 
-    private fun navigateToUserDetailsActivity(user: User) {
-        // Soha ne példányosíts Activity-t, és ne hívd meg a lifecycle metódusokat kézzel!!!
-        // Intent: Szándék. Azt mondjuk a rendszernek, hogy majd ezzel az activityvel akarunk valamit kezdeni.
-        /*val intent = Intent(this, UserDetailsActivity::class.java)
-        // Adat átadás activity-k között:
-        intent.putExtra(USER, user)
-        // Átadjuk az intentet, így a rendszer elindítja a UserDetailsActivity-t
-        startActivity(intent)*/
+    private fun navigateToUserDetailsFragment(user: User) {
+       Navigation.findNavController(activity as FragmentActivity, R.id.fragmentContainer)
+           .navigate(R.id.action_userListFragment_to_userDetailsFragment)
     }
 
     // This is the dataset of the recyclerView

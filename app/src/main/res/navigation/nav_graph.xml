@@ -9,5 +9,17 @@
         android:id="@+id/userListFragment"
         android:name="com.pszandi.contactlist.activities.UserListFragment"
         android:label="fragment_user_list"
-        tools:layout="@layout/fragment_user_list" />
+        tools:layout="@layout/fragment_user_list" >
+        <action
+            android:id="@+id/action_userListFragment_to_userDetailsFragment"
+            app:destination="@id/userDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/userDetailsFragment"
+        android:name="com.pszandi.contactlist.activities.UserDetailsFragment"
+        android:label="UserDetailsFragment" >
+        <argument
+            android:name="user"
+            app:argType="com.pszandi.contactlist.data.User" />
+    </fragment>
 </navigation>
