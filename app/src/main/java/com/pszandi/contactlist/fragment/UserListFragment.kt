@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.navigation.Navigation
@@ -11,10 +12,16 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.pszandi.contactlist.R
 import com.pszandi.contactlist.adapter.UserAdapter
-import com.pszandi.contactlist.data.Name
 import com.pszandi.contactlist.data.User
 import com.pszandi.contactlist.databinding.FragmentUserListBinding
 import com.pszandi.contactlist.interfaces.UserClickListener
+import com.pszandi.contactlist.service.RetrofitFactory
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import okhttp3.Dispatcher
+import retrofit2.HttpException
 
 
 class UserListFragment : Fragment() {
@@ -33,7 +40,7 @@ class UserListFragment : Fragment() {
         // Létrehozunk egy LinearLayoutManagert, emiatt lesznek sorban az elemek a RV-ban
         layoutManager = LinearLayoutManager(context)
         // Az adapternek átadjuk a user listánkat, ebből fogja bindolni a ViewHoldereket
-        userAdapter = UserAdapter(userList, itemClickCallback = object : UserClickListener {
+        userAdapter = UserAdapter(arrayListOf(), itemClickCallback = object : UserClickListener {
             override fun onUserClicked(user: User) {
                 // Itt hozzá fogsz tudni a userhez
                 navigateToUserDetailsFragment(user)
@@ -48,6 +55,25 @@ class UserListFragment : Fragment() {
     ): View {
         binding = FragmentUserListBinding.inflate(inflater, container, false)
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        val userService = RetrofitFactory.makeUserService()
+        CoroutineScope(Dispatchers.IO).launch {
+            val response = userService.getUsers(10)
+            withContext(Dispatchers.Main){
+                try {
+                    // If the webservice call was successful
+                    if(response.isSuccessful()){
+                        //todo refresh user list in recyclerView
+                    } else {
+                        Toast.makeText(context, "Error: ${response.code()}", Toast.LENGTH_SHORT).show()
+                    }
+                } catch(ex: HttpException){
+                        Toast.makeText(context,"Exception ${ex.message}", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
     }
 
     override fun onStart() {
@@ -75,7 +101,6 @@ class UserListFragment : Fragment() {
     companion object {
         // Javában:
         //private final static String USER = "user"
-
         val USER = "user"
     }
 
