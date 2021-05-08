@@ -10,15 +10,11 @@ import com.pszandi.contactlist.interfaces.UserClickListener
 
 // Ez lesz az adapter, ami felelős a ViewHolderek létrehozásáért és bindolásáért
 // dataSet: az az adat, amit meg akarunk jeleníteni
-class UserAdapter(private val dataSet: List<User>, private val itemClickCallback: UserClickListener) :
+class UserAdapter(private var dataSet: List<User>, private val itemClickCallback: UserClickListener) :
     RecyclerView.Adapter<UserAdapter.ViewHolder>() {
 
     // Így hozunk létre egy viewHoldert
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        // A ViewBinding miatt átalakítjuk:
-        /*val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_user, parent, false)
-        return ViewHolder(view)*/
         val binding = ItemUserBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
     }
@@ -34,13 +30,13 @@ class UserAdapter(private val dataSet: List<User>, private val itemClickCallback
         holder.bind(dataSet[position], itemClickCallback)
     }
 
+    fun updateData(list: List<User>) {
+        dataSet = list
+        notifyDataSetChanged()
+    }
+
     // A ViewHolder osztály, ő testesít meg egy RecyclerView elemet, ami megjelenik.
     inner class ViewHolder(val binding: ItemUserBinding) : RecyclerView.ViewHolder(binding.root) {
-        // Totál felesleges lesz a viewBinding miatt
-        /*val nameTextView = binding.findViewById<TextView>(R.id.tvName)
-        val imageView =  binding.findViewById<ImageView>(R.id.ivAvatar)*/
-
-        // Az aktuális viewHolder name textview-jának beállítjuk a user nevét
         fun bind(user: User, itemClickCallback: UserClickListener) {
             binding.tvName.text = "${user.name.firstName} ${user.name.lastName}"
             binding.ivAvatar.load(user.picture.thumbnail)
