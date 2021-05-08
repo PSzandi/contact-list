@@ -34,7 +34,7 @@ class UserDetailsFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        binding.cardImage.load(user?.image)
+        binding.cardImage.load(user?.picture?.large)
         binding.userName.text = "${user?.name?.firstName} ${user?.name?.lastName}"
         binding.tvDetails.text = "${user?.phoneNumber}"
 

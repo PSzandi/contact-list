@@ -43,7 +43,7 @@ class UserAdapter(private val dataSet: List<User>, private val itemClickCallback
         // Az aktuális viewHolder name textview-jának beállítjuk a user nevét
         fun bind(user: User, itemClickCallback: UserClickListener) {
             binding.tvName.text = "${user.name.firstName} ${user.name.lastName}"
-            binding.ivAvatar.load(user.image)
+            binding.ivAvatar.load(user.picture.thumbnail)
             binding.root.setOnClickListener {
                 itemClickCallback.onUserClicked(user)
             }
