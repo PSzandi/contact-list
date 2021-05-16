@@ -24,7 +24,7 @@ import okhttp3.Dispatcher
 import retrofit2.HttpException
 
 
-class UserListFragment : Fragment() {
+class UsersFragment : Fragment() {
 
     // layoutManager of the recyclerview
     lateinit var layoutManager: LinearLayoutManager

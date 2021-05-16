@@ -7,13 +7,13 @@ object RetrofitFactory {
 
     const val BASE_URL = "https://randomuser.me"
 
-    fun makeUserService(): UserService {
+    fun makeUserService(): UserApi {
 
         return Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-            .create(UserService::class.java)
+            .create(UserApi::class.java)
     }
 
 }
