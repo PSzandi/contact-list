@@ -1,9 +1,10 @@
-package com.pszandi.contactlist.activities
+package com.pszandi.contactlist.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
@@ -20,14 +21,10 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import okhttp3.Dispatcher
 import retrofit2.HttpException
 
 
 class UsersFragment : Fragment() {
-
-    // layoutManager of the recyclerview
-    lateinit var layoutManager: LinearLayoutManager
 
     // adapter of the recyclerview
     lateinit var userAdapter: UserAdapter
@@ -37,8 +34,6 @@ class UsersFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        // Létrehozunk egy LinearLayoutManagert, emiatt lesznek sorban az elemek a RV-ban
-        layoutManager = LinearLayoutManager(context)
         // Az adapternek átadjuk a user listánkat, ebből fogja bindolni a ViewHoldereket
         userAdapter = UserAdapter(arrayListOf(), itemClickCallback = object : UserClickListener {
             override fun onUserClicked(user: User) {
@@ -46,6 +41,30 @@ class UsersFragment : Fragment() {
                 navigateToUserDetailsFragment(user)
             }
         })
+        getUsers()
+    }
+
+    private fun getUsers() {
+        val userService = RetrofitFactory.makeUserService()
+        CoroutineScope(Dispatchers.IO).launch {
+            val response = userService.getUsers(30)
+            withContext(Dispatchers.Main) {
+                try {
+                    // If the webservice call was successful
+                    if (response.isSuccessful()) {
+                        val userList = response.body()?.results
+                        userList?.let {
+                            userAdapter.updateData(it)
+                        }
+                    } else {
+                        Toast.makeText(context, "Error: ${response.code()}", Toast.LENGTH_SHORT)
+                            .show()
+                    }
+                } catch (ex: HttpException) {
+                    Toast.makeText(context, "Exception ${ex.message}", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
     }
 
     override fun onCreateView(
@@ -58,22 +77,8 @@ class UsersFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val userService = RetrofitFactory.makeUserService()
-        CoroutineScope(Dispatchers.IO).launch {
-            val response = userService.getUsers(10)
-            withContext(Dispatchers.Main){
-                try {
-                    // If the webservice call was successful
-                    if(response.isSuccessful()){
-                        //todo refresh user list in recyclerView
-                    } else {
-                        Toast.makeText(context, "Error: ${response.code()}", Toast.LENGTH_SHORT).show()
-                    }
-                } catch(ex: HttpException){
-                        Toast.makeText(context,"Exception ${ex.message}", Toast.LENGTH_SHORT).show()
-                }
-            }
-        }
+        binding.rvUsers.adapter = userAdapter
+        binding.rvUsers.layoutManager = LinearLayoutManager(context)
     }
 
     override fun onStart() {
@@ -81,12 +86,8 @@ class UsersFragment : Fragment() {
         // Ezzel tudunk listaelemek közé elválasztást tenni
         val dividerItemDecoration = DividerItemDecoration(
             context,
-            layoutManager.orientation
+            LinearLayout.HORIZONTAL
         )
-
-        binding.rvUsers.layoutManager = layoutManager
-        binding.rvUsers.adapter = userAdapter
-
         // Elválasztást megvalósító objektum átadása
         binding.rvUsers.addItemDecoration(dividerItemDecoration)
 

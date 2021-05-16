@@ -1,4 +1,4 @@
-package com.pszandi.contactlist.activities
+package com.pszandi.contactlist.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
