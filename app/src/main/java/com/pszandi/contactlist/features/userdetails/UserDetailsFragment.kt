@@ -1,4 +1,4 @@
-package com.pszandi.contactlist.fragment
+package com.pszandi.contactlist.features.userdetails
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,8 +8,9 @@ import androidx.fragment.app.Fragment
 import coil.load
 import com.pszandi.contactlist.data.User
 import com.pszandi.contactlist.databinding.FragmentUserDetailsBinding
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class UserDetailsFragment : Fragment() {
 
     private lateinit var binding: FragmentUserDetailsBinding

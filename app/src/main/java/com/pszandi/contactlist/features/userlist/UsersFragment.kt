@@ -1,13 +1,14 @@
-package com.pszandi.contactlist.fragment
+package com.pszandi.contactlist.features.userlist
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,14 +17,10 @@ import com.pszandi.contactlist.adapter.UserAdapter
 import com.pszandi.contactlist.data.User
 import com.pszandi.contactlist.databinding.FragmentUserListBinding
 import com.pszandi.contactlist.interfaces.UserClickListener
-import com.pszandi.contactlist.service.RetrofitFactory
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import retrofit2.HttpException
+import dagger.hilt.android.AndroidEntryPoint
 
 
+@AndroidEntryPoint
 class UsersFragment : Fragment() {
 
     // adapter of the recyclerview
@@ -31,6 +28,7 @@ class UsersFragment : Fragment() {
 
     // View binding:
     private lateinit var binding: FragmentUserListBinding
+    private val viewModel: UsersViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,30 +39,13 @@ class UsersFragment : Fragment() {
                 navigateToUserDetailsFragment(user)
             }
         })
-        getUsers()
+        setupObserver()
     }
 
-    private fun getUsers() {
-        val userService = RetrofitFactory.makeUserService()
-        CoroutineScope(Dispatchers.IO).launch {
-            val response = userService.getUsers(30)
-            withContext(Dispatchers.Main) {
-                try {
-                    // If the webservice call was successful
-                    if (response.isSuccessful()) {
-                        val userList = response.body()?.results
-                        userList?.let {
-                            userAdapter.updateData(it)
-                        }
-                    } else {
-                        Toast.makeText(context, "Error: ${response.code()}", Toast.LENGTH_SHORT)
-                            .show()
-                    }
-                } catch (ex: HttpException) {
-                    Toast.makeText(context, "Exception ${ex.message}", Toast.LENGTH_SHORT).show()
-                }
-            }
-        }
+    private fun setupObserver() {
+        viewModel.userList.observe(this, { userList ->
+            userAdapter.updateData(userList)
+        })
     }
 
     override fun onCreateView(
@@ -79,6 +60,9 @@ class UsersFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.rvUsers.adapter = userAdapter
         binding.rvUsers.layoutManager = LinearLayoutManager(context)
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            viewModel.getUsers()
+        }
     }
 
     override fun onStart() {
@@ -95,7 +79,7 @@ class UsersFragment : Fragment() {
 
     private fun navigateToUserDetailsFragment(user: User) {
         Navigation.findNavController(activity as FragmentActivity, R.id.fragmentContainer)
-            .navigate(UserListFragmentDirections.actionUserListFragmentToUserDetailsFragment(user))
+            .navigate(UsersFragmentDirections.actionUserListFragmentToUserDetailsFragment(user))
     }
 
     // Ez a javás static-nak felel meg

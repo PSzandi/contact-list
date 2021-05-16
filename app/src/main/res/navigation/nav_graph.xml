@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/userListFragment"
-        android:name="com.pszandi.contactlist.fragment.UsersFragment"
+        android:name="com.pszandi.contactlist.features.userlist.UsersFragment"
         android:label="fragment_user_list"
         tools:layout="@layout/fragment_user_list" >
         <action
@@ -20,7 +20,7 @@
     </fragment>
     <fragment
         android:id="@+id/userDetailsFragment"
-        android:name="com.pszandi.contactlist.fragment.UserDetailsFragment"
+        android:name="com.pszandi.contactlist.features.userdetails.UserDetailsFragment"
         android:label="UserDetailsFragment" >
         <argument
             android:name="user"
