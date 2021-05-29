@@ -28,6 +28,7 @@ class ContactListFragment : Fragment() {
     private lateinit var binding: FragmentContactListBinding
     private val viewModel: ContactListViewModel by viewModels()
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // Az adapternek átadjuk a user listánkat, ebből fogja bindolni a ViewHoldereket
@@ -43,6 +44,7 @@ class ContactListFragment : Fragment() {
     private fun setupObserver() {
         viewModel.contactList.observe(this, { userList ->
             userAdapter.updateData(userList)
+            binding.refreshLayout.isRefreshing = false
         })
     }
 
@@ -58,6 +60,10 @@ class ContactListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.rvUsers.adapter = userAdapter
         binding.rvUsers.layoutManager = LinearLayoutManager(context)
+        binding.refreshLayout.isRefreshing = true
+        binding.refreshLayout.setOnRefreshListener {
+            fetchContacts()
+        }
         fetchContacts()
         // Ezzel tudunk listaelemek közé elválasztást tenni
         val dividerItemDecoration = DividerItemDecoration(
@@ -82,6 +88,7 @@ class ContactListFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.action_refresh -> {
+                binding.refreshLayout.isRefreshing = true
                 fetchContacts()
                 true
             }
