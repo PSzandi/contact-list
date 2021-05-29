@@ -16,5 +16,14 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
     }
 
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        supportFragmentManager.fragments.firstOrNull()?.childFragmentManager?.fragments?.firstOrNull()
+            ?.onRequestPermissionsResult(requestCode, permissions, grantResults)
+    }
 
 }
