@@ -4,6 +4,8 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import coil.transform.CircleCropTransformation
+import com.pszandi.contactlist.R
 import com.pszandi.contactlist.databinding.ItemUserBinding
 import com.pszandi.contactlist.data.Contact
 import com.pszandi.contactlist.interfaces.ContactClickListener
@@ -39,7 +41,11 @@ class UserAdapter(private var dataSet: List<Contact>, private val itemClickCallb
     inner class ViewHolder(val binding: ItemUserBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(contact: Contact, itemClickCallback: ContactClickListener) {
             binding.tvName.text = "${contact.name.firstName} ${contact.name.lastName}"
-            binding.ivAvatar.load(contact.picture.thumbnail)
+            binding.ivAvatar.load(contact.picture.thumbnail){
+                crossfade(true)
+                placeholder(R.drawable.placeholder_contact)
+                transformations(CircleCropTransformation())
+            }
             binding.root.setOnClickListener {
                 itemClickCallback.onContactClicked(contact)
             }
