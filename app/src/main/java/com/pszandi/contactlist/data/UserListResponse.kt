@@ -2,5 +2,5 @@ package com.pszandi.contactlist.data
 
 
 data class UserListResponse (
-    val results : List<User>
+    val results : List<Contact>
 )

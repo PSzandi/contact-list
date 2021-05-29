@@ -5,12 +5,12 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.pszandi.contactlist.databinding.ItemUserBinding
-import com.pszandi.contactlist.data.User
-import com.pszandi.contactlist.interfaces.UserClickListener
+import com.pszandi.contactlist.data.Contact
+import com.pszandi.contactlist.interfaces.ContactClickListener
 
 // Ez lesz az adapter, ami felelős a ViewHolderek létrehozásáért és bindolásáért
 // dataSet: az az adat, amit meg akarunk jeleníteni
-class UserAdapter(private var dataSet: List<User>, private val itemClickCallback: UserClickListener) :
+class UserAdapter(private var dataSet: List<Contact>, private val itemClickCallback: ContactClickListener) :
     RecyclerView.Adapter<UserAdapter.ViewHolder>() {
 
     // Így hozunk létre egy viewHoldert
@@ -30,18 +30,18 @@ class UserAdapter(private var dataSet: List<User>, private val itemClickCallback
         holder.bind(dataSet[position], itemClickCallback)
     }
 
-    fun updateData(list: List<User>) {
+    fun updateData(list: List<Contact>) {
         dataSet = list
         notifyDataSetChanged()
     }
 
     // A ViewHolder osztály, ő testesít meg egy RecyclerView elemet, ami megjelenik.
     inner class ViewHolder(val binding: ItemUserBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(user: User, itemClickCallback: UserClickListener) {
-            binding.tvName.text = "${user.name.firstName} ${user.name.lastName}"
-            binding.ivAvatar.load(user.picture.thumbnail)
+        fun bind(contact: Contact, itemClickCallback: ContactClickListener) {
+            binding.tvName.text = "${contact.name.firstName} ${contact.name.lastName}"
+            binding.ivAvatar.load(contact.picture.thumbnail)
             binding.root.setOnClickListener {
-                itemClickCallback.onUserClicked(user)
+                itemClickCallback.onContactClicked(contact)
             }
         }
 

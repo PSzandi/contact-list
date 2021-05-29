@@ -3,7 +3,7 @@ package com.pszandi.contactlist.data
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
-data class User(
+data class Contact(
     val name: Name,
     @SerializedName("phone")
     val phoneNumber: String,

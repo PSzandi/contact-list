@@ -7,9 +7,9 @@
 
     <fragment
         android:id="@+id/userListFragment"
-        android:name="com.pszandi.contactlist.features.userlist.UsersFragment"
+        android:name="com.pszandi.contactlist.features.userlist.ContactListFragment"
         android:label="fragment_user_list"
-        tools:layout="@layout/fragment_user_list" >
+        tools:layout="@layout/fragment_contact_list" >
         <action
             android:id="@+id/action_userListFragment_to_userDetailsFragment"
             app:destination="@id/userDetailsFragment"
@@ -20,10 +20,10 @@
     </fragment>
     <fragment
         android:id="@+id/userDetailsFragment"
-        android:name="com.pszandi.contactlist.features.userdetails.UserDetailsFragment"
+        android:name="com.pszandi.contactlist.features.contact_details.ContactDetailsFragment"
         android:label="UserDetailsFragment" >
         <argument
             android:name="user"
-            app:argType="com.pszandi.contactlist.data.User" />
+            app:argType="com.pszandi.contactlist.data.Contact" />
     </fragment>
 </navigation>

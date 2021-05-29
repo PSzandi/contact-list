@@ -3,4 +3,5 @@
     <string name="details_title">UserDetailsActivity</string>
     <string name="user_name">Username</string>
     <string name="mobile_text">Mobile</string>
+    <string name="item_refresh">Refresh</string>
 </resources>

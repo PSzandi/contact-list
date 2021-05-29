@@ -5,7 +5,7 @@ import com.pszandi.contactlist.service.UserApi
 import retrofit2.Response
 import javax.inject.Inject
 
-class UserRepository @Inject constructor(
+class ContactRepository @Inject constructor(
     private val userApi: UserApi
 ) {
 

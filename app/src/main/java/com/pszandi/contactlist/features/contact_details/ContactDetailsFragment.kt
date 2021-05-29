@@ -1,4 +1,4 @@
-package com.pszandi.contactlist.features.userdetails
+package com.pszandi.contactlist.features.contact_details
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,21 +6,21 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import coil.load
-import com.pszandi.contactlist.data.User
-import com.pszandi.contactlist.databinding.FragmentUserDetailsBinding
+import com.pszandi.contactlist.data.Contact
+import com.pszandi.contactlist.databinding.FragmentContactDetailsBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class UserDetailsFragment : Fragment() {
+class ContactDetailsFragment : Fragment() {
 
-    private lateinit var binding: FragmentUserDetailsBinding
-    var user: User? = null
+    private lateinit var binding: FragmentContactDetailsBinding
+    var contact: Contact? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // Kiszedjük az bundle-ből a user-t, amit az előző fragmentről adtunk át.
         arguments?.let { args ->
-            user = UserDetailsFragmentArgs.fromBundle(args).user
+            contact = ContactDetailsFragmentArgs.fromBundle(args).user
         }
     }
 
@@ -29,15 +29,15 @@ class UserDetailsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentUserDetailsBinding.inflate(layoutInflater, container, false)
+        binding = FragmentContactDetailsBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
 
     override fun onStart() {
         super.onStart()
-        binding.cardImage.load(user?.picture?.large)
-        binding.userName.text = "${user?.name?.firstName} ${user?.name?.lastName}"
-        binding.tvDetails.text = "${user?.phoneNumber}"
+        binding.cardImage.load(contact?.picture?.large)
+        binding.userName.text = "${contact?.name?.firstName} ${contact?.name?.lastName}"
+        binding.tvDetails.text = "${contact?.phoneNumber}"
 
     }
 
